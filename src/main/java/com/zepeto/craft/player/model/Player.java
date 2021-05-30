@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Component
 @Getter
 @Setter
 @ToString

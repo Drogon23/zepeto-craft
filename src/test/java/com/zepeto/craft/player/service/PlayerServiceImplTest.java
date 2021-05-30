@@ -42,7 +42,7 @@ class PlayerServiceImplTest {
 		Item item = new Item(1L, 1000);
 		Map<Long, Item> itemMap = Maps.newHashMap(1L, item);
 		ReflectionTestUtils.setField(playerService, "itemMap", itemMap);
-		ReflectionTestUtils.setField(playerService, "player", new Player(new FixedDefaultPolicy()));
+		ReflectionTestUtils.setField(playerService, "creditPolicy", new FixedDefaultPolicy());
 	}
 
 	@Test
