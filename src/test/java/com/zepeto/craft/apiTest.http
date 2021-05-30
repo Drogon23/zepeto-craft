@@ -12,6 +12,6 @@ Content-Type: application/json
 
 {
   "playerId": 1,
-  "itemId": 3,
-  "itemCount": 2
+  "itemId": 1,
+  "itemCount": 1
 }

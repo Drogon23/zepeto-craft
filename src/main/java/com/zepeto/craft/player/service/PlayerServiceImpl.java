@@ -15,8 +15,7 @@ import com.zepeto.craft.credit.model.Credit;
 import com.zepeto.craft.inventory.service.InventoryService;
 import com.zepeto.craft.item.model.Item;
 import com.zepeto.craft.item.model.ItemRequest;
-import com.zepeto.craft.player.mapper.PlayerMapper;
-import com.zepeto.craft.player.model.LitePlayer;
+import com.zepeto.craft.player.model.Player;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -24,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 public class PlayerServiceImpl implements PlayerService {
 	private final InventoryService inventoryService;
 	private final CreditMapper creditMapper;
-	private final PlayerMapper playerMapper;
+	private final Player player;
 	private final Map<Long, Item> itemMap = new HashMap<>();
 
 	@PostConstruct
@@ -57,7 +56,7 @@ public class PlayerServiceImpl implements PlayerService {
 	@Override
 	@Transactional(isolation = Isolation.SERIALIZABLE)
 	public void buyItem(ItemRequest itemRequest) {
-		LitePlayer player = playerMapper.selectPlayer(itemRequest.getPlayerId());
+		player.setCredit(creditMapper.selectCredit(itemRequest.getPlayerId()));
 		Item item = itemMap.get(itemRequest.getItemId());
 
 		long itemTotalPrice = item.getPrice() * itemRequest.getItemCount();

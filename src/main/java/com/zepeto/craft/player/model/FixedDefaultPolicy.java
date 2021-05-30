@@ -2,22 +2,16 @@ package com.zepeto.craft.player.model;
 
 import java.util.Objects;
 
-import com.zepeto.craft.credit.model.Credit;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import org.springframework.stereotype.Component;
 
-@Getter
-@Setter
-@ToString
-public class LitePlayer extends Player {
+import com.zepeto.craft.credit.model.Credit;
+
+@Component
+public class FixedDefaultPolicy implements CreditPolicy {
 	private static final int ZERO = 0;
 
-	private long playerId;
-	private Credit credit;
-
 	@Override
-	public void consumeCredit(long price) {
+	public void consumeCredit(Credit credit, long price) {
 		if (Objects.isNull(credit) || (credit.getTotalCredit() - price < ZERO)) {
 			throw new IllegalStateException("잔고가 부족합니다.");
 		}

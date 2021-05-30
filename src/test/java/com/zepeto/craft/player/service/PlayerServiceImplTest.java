@@ -3,6 +3,7 @@ package com.zepeto.craft.player.service;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -23,15 +24,13 @@ import com.zepeto.craft.credit.model.Credit;
 import com.zepeto.craft.inventory.service.InventoryService;
 import com.zepeto.craft.item.model.Item;
 import com.zepeto.craft.item.model.ItemRequest;
-import com.zepeto.craft.player.mapper.PlayerMapper;
-import com.zepeto.craft.player.model.LitePlayer;
+import com.zepeto.craft.player.model.FixedDefaultPolicy;
+import com.zepeto.craft.player.model.Player;
 
 @ExtendWith(MockitoExtension.class)
 class PlayerServiceImplTest {
 	@Mock
 	private CreditMapper creditMapper;
-	@Mock
-	private PlayerMapper playerMapper;
 	@Mock
 	private InventoryService inventoryService;
 
@@ -43,6 +42,7 @@ class PlayerServiceImplTest {
 		Item item = new Item(1L, 1000);
 		Map<Long, Item> itemMap = Maps.newHashMap(1L, item);
 		ReflectionTestUtils.setField(playerService, "itemMap", itemMap);
+		ReflectionTestUtils.setField(playerService, "player", new Player(new FixedDefaultPolicy()));
 	}
 
 	@Test
@@ -86,14 +86,11 @@ class PlayerServiceImplTest {
 		itemRequest.setItemCount(1);
 
 		Credit credit = new Credit();
-		LitePlayer player = new LitePlayer();
-		player.setCredit(credit);
-
-		when(playerMapper.selectPlayer(anyLong())).thenReturn(player);
+		when(creditMapper.selectCredit(anyLong())).thenReturn(credit);
 
 		assertThrows(IllegalStateException.class, () -> playerService.buyItem(itemRequest));
 
-		verify(playerMapper).selectPlayer(anyLong());
+		verify(creditMapper).selectCredit(anyLong());
 		verify(creditMapper, never()).updateCredit(any());
 		verify(inventoryService, never()).addItem(any());
 	}
@@ -108,16 +105,14 @@ class PlayerServiceImplTest {
 
 		Credit credit = new Credit();
 		credit.setFreeCredit(1000);
-		LitePlayer player = new LitePlayer();
-		player.setCredit(credit);
 
-		when(playerMapper.selectPlayer(anyLong())).thenReturn(player);
+		when(creditMapper.selectCredit(anyLong())).thenReturn(credit);
 
 		playerService.buyItem(itemRequest);
 
 		assertThat(0L, is(credit.getTotalCredit()));
 
-		verify(playerMapper).selectPlayer(anyLong());
+		verify(creditMapper).selectCredit(anyLong());
 		verify(creditMapper).updateCredit(any());
 		verify(inventoryService).addItem(any());
 	}
