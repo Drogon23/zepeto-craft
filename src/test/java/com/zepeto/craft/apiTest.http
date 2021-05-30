@@ -1,0 +1,17 @@
+POST http://localhost:8080/api/v1/players/credits
+Content-Type: application/json
+
+{
+  "playerId": 1,
+  "paidCredit": 1000,
+  "freeCredit": 1000
+}
+###
+POST http://localhost:8080/api/v1/players/items
+Content-Type: application/json
+
+{
+  "playerId": 1,
+  "itemId": 3,
+  "itemCount": 2
+}

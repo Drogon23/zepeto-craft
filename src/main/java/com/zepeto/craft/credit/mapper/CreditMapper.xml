@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zepeto.craft.credit.mapper.CreditMapper">
+    <select id="selectCredit" parameterType="long" resultType="credit">
+        SELECT player_id AS playerId
+             , paid_credit AS paidCredit
+             , free_credit AS freeCredit
+          FROM player_credit
+         WHERE player_id = #{playerId}
+    </select>
+
+    <insert id="insertCredit" parameterType="credit">
+        INSERT INTO player_credit
+        (
+          player_id
+        , paid_credit
+        , free_credit
+        , created_at
+        , modified_at
+        )
+        VALUES
+        (
+          #{playerId}
+        , #{paidCredit}
+        , #{freeCredit}
+        , NOW()
+        , NOW()
+        )
+    </insert>
+
+    <update id="updateCredit" parameterType="credit">
+        UPDATE player_credit
+           SET paid_credit = #{paidCredit}
+             , free_credit = #{freeCredit}
+             , modified_at = NOW()
+         WHERE player_id = #{playerId}
+    </update>
+
+</mapper>

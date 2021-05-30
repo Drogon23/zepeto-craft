@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zepeto.craft.player.mapper.PlayerMapper">
+    <resultMap id="litePlayer" type="com.zepeto.craft.player.model.LitePlayer">
+        <id property="playerId" column="id" />
+        <association property="credit" column="id" javaType="credit">
+            <id property="playerId" column="id"/>
+            <result property="paidCredit" column="paid_credit" />
+            <result property="freeCredit" column="free_credit" />
+        </association>
+    </resultMap>
+
+    <select id="selectPlayer" parameterType="long" resultMap="litePlayer">
+        SELECT p.id
+             , credit.paid_credit
+             , credit.free_credit
+          FROM player p
+    INNER JOIN player_credit credit
+            ON credit.player_id = p.id
+         WHERE player_id = #{playerId}
+    </select>
+</mapper>
