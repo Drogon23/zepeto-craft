@@ -1,7 +1,3 @@
-/*
- * Copyright 2021 Naver Corp. All rights Reserved.
- * Naver PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- */
 package com.zepeto.craft.inventory.model;
 
 import org.apache.ibatis.type.Alias;
