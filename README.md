@@ -1,7 +1,7 @@
 zepeto-craft
 
 
-###재화 충전 API
+### 재화 충전 API
 /api/v1/players/credits<br>
 
 {
@@ -10,7 +10,7 @@ zepeto-craft
 "freeCredit": 1000
 }
 
-###아이템 구매 API
+### 아이템 구매 API
 /api/v1/players/items<br>
 
 {
